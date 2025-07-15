@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Classes{% endblock %}
+
+{% block content %}
+
+<!-- ✅ AOS Animation CSS -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+<style>
+  .classes-section {
+    background-image: url("{% static 'image/classes-bg.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 80px 20px;
+    min-height: 100vh;
+  }
+
+  .classes-overlay {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 1000px;
+    margin: auto;
+  }
+
+  .class-box {
+    background-color: #218c5e;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .class-box:hover {
+    background-color: #196646;
+  }
+
+  .note {
+    display: none;
+    background-color: #f0fff4;
+    color: #222;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border-left: 5px solid #38a169;
+  }
+
+  h1.text-center {
+    font-weight: bold;
+    color: #000;
+  }
+</style>
+
+<section class="classes-section">
+  <div class="classes-overlay">
+    <h1 class="text-center" data-aos="fade-down">Our Classes</h1>
+    <hr>
+
+    {% for d in classes %}
+    <div class="class-box text-center" onclick="showNote('note-{{ d.id }}')" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:"1" }}00">
+      <h2>{{ d.classes_name }}</h2>
+      <div id="note-{{ d.id }}" class="note" data-aos="fade-in">{{ d.classes_description }}</div>
+    </div>
+    {% endfor %}
+
+  </div>
+</section>
+
+<!-- ✅ AOS Animation JS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({
+    once: true,
+    duration: 1000,
+    offset: 120
+  });
+
+  function showNote(noteId) {
+    const allNotes = document.querySelectorAll('.note');
+    allNotes.forEach(note => note.style.display = 'none');
+
+    const selectedNote = document.getElementById(noteId);
+    if (selectedNote) {
+      selectedNote.style.display = 'block';
+    }
+  }
+</script>
+
+{% endblock %}
